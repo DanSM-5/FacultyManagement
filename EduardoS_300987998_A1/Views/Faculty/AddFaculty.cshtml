@@ -1,0 +1,14 @@
+﻿@model Faculty
+@{
+    ViewData["Title"] = "Add Faculty";
+}
+
+<h2>Add Faculty</h2>
+<div asp-validation-summary="All" class="text-danger text-center"></div>
+<form asp-action="AddToFaculty" method="post" asp-controller="Faculty">
+    <partial name="NewFaculty" for="@Model" />
+    <button class="btn-save btn-design" type="submit">Save</button>
+    <button class="btn-save btn-secondary" asp-action="Index" asp-controller="Home">Cancel</button>
+</form>
+
+<partial name="MandatoryField"/>

@@ -1,0 +1,13 @@
+﻿@model Faculty
+
+<label asp-for="Name"><span class="mandatory-field">*</span>Name: </label>
+<input asp-for="Name" type="text" id="facultyName" placeholder="Name" value="@Model.Name" /><br /><br />
+<label asp-for="Email"><span class="mandatory-field">*</span>Email: </label>
+<input asp-for="Email" type="email" id="facultyName" placeholder="Name" value="@Model.Email" /><br /><br />
+<label asp-for="Phone"><span class="mandatory-field">*</span>Phone: </label>
+<input asp-for="Phone" type="text" id="facultyName" placeholder="Name" value="@Model.Phone" /><br /><br />
+<label asp-for="Notes">Aditional Info: </label><br />
+<textarea asp-for="Notes" placeholder="Type here" value="@Model.Notes"></textarea>
+
+
+

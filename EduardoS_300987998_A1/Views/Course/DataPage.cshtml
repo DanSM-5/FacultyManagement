@@ -1,0 +1,67 @@
+﻿@model Course
+@{
+    ViewData["Title"] = "DataPage";
+}
+
+<h2>@Model.Name</h2>
+<div class="row">
+    <div class="column">
+        <fieldset>
+            <legend>Course Info</legend>
+            <p>Name: @Model.Name</p>
+            <p>Id:   @Model.CourseID</p>
+            <p>Short Name: @Model.ShortName</p>
+        </fieldset>
+    </div>
+    <div class="column">
+        <fieldset>
+            <legend>Details</legend>
+            <div>
+                <h3>Faculty list: @Model.FacultyCourses.Count</h3>
+                @if (Model.FacultyCourses.Count == 0)
+                {
+                    @:N/A
+                }
+                else
+                {
+                    <table class="table table-striped table-no-border">
+                        <tr>
+                            <th>ID</th>
+                            <th colspan="2">Name</th>
+                            
+                        </tr>
+                    @foreach (FacultyCourse fc in Model.FacultyCourses)
+                    {
+                        <tr>
+                            <td>@fc.Faculty.FacultyID</td>
+                            <td>@fc.Faculty.Name</td>
+                            <td><a asp-action="DataPage" asp-controller="Faculty" asp-route-id="@fc.Faculty.FacultyID" class="btn btn-sm btn-warning">See Faculty</a></td>
+                        </tr>
+                    }
+                    </table>
+                }
+            </div>
+            <p></p>
+            <div>
+                <form asp-action="AssignCourse" asp-controller="Faculty" method="post">
+                    <input type="hidden" value="@Model.CourseID" name="cid"/>
+                    <button class="btn btn-design">AssignFaculty</button>
+                </form>
+            </div>     
+            <p></p>
+            <div>
+                <h3>Description</h3>
+                <p>
+                    @if (Model.Description == null)
+                    {
+                        @:N/A
+                    }
+                    else
+                    {
+                        @Model.Description
+                    }
+                </p>
+            </div>
+        </fieldset>
+    </div>
+</div>

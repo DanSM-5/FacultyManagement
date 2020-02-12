@@ -1,0 +1,32 @@
+﻿@model Course
+@{
+    ViewData["Title"] = "Update";
+}
+
+<h2>Update</h2>
+<form asp-action="Update" asp-controller="CRUDCourse" method="post">
+    <div class="form-group">
+        <label asp-for="CourseID">ID:</label>&emsp;
+        <span><b>@Model.CourseID</b></span>
+        <input type="hidden" asp-for="CourseID" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Name"><span class="mandatory-field">*</span>Name</label>
+        <div><span asp-validation-for="Name" class="text-danger"></span></div>
+        <input asp-for="Name" type="text" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="ShortName"><span class="mandatory-field">*</span>Short Name</label>
+        <div><span asp-validation-for="ShortName" class="text-danger"></span></div>
+        <input asp-for="ShortName" type="text" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Description">Notes</label>
+        <textarea asp-for="Description" type="text" class="form-control"></textarea>
+    </div>
+    <div class="text-center">
+        <button type="submit" class="btn-save btn-design">Save</button>
+        <a asp-action="Courses" asp-controller="Course" class="btn-save btn-secondary">Cancel</a>
+    </div>
+</form>
+@Html.Partial("MandatoryField")

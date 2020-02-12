@@ -1,0 +1,62 @@
+﻿@model FacultyCourseViewModel
+@{
+    ViewData["Title"] = "Assign Faculty";
+}
+
+<h2>Assign Faculty</h2>
+@if (TempData["message"] != null)
+{
+    <div class="alert-info text-lg-center p-2">
+        <p>@TempData["message"]</p>
+    </div>
+}
+@if (TempData["repeated"] != null)
+{
+    <div class="alert-warning text-lg-center p-2">
+        <p>@TempData["repeated"]</p>
+    </div>
+}
+@if (TempData["invalid"] != null)
+{
+    <div class="alert-danger text-lg-center p-2">
+        <p>@TempData["invalid"]</p>
+    </div>
+}
+<form asp-action="AssignToFaculty" asp-controller="Faculty" method="post">
+    <div class="row" id="assignFaculty">
+        <div class="column colAssign">
+            <div id="leftAssign">
+                <label for="facultyID">Select faculty: </label><br />
+
+                @Html.DropDownList(Model.DropDownListName, Model.List, Model.DropDownDefaultValue, new { @class = "form-control" })
+
+            </div>
+        </div>
+        <div class="column colAssign">
+            <div id="rightAssign">
+                <table class="table table-striped table-no-border">
+                    <thead>
+                        <tr>
+                            <th colspan="2" class="th-blue">
+                                Courses
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (Course course in Model.CourseRepository.Courses)
+                        {
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="ids" value="@course.CourseID" @(Model.CourseId == course.CourseID ? "checked" : "") />
+                                </td>
+                                <td>@course.Name</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <button class="btn-save btn-design" type="submit">Assign</button>
+        <button type="reset" class="btn-save btn-secondary">Clean</button>
+    </div>
+</form>

@@ -1,0 +1,13 @@
+﻿@if (ViewContext.HttpContext.User.IsInRole("Admin"))
+{
+    <p class="float-left col-form-label">[Admin]</p>
+}
+else if (ViewContext.HttpContext.User.IsInRole("Manager"))
+{
+    <p class="float-left col-form-label">[Manager]</p>
+}
+else
+{
+    <p class="float-left col-form-label">[Anonymous User]</p>
+}
+

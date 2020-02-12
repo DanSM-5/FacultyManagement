@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/StyleSheet.css" rel="stylesheet" />
+    <link rel="icon" type="image/png" href="~/icon.png" sizes="16x16" />
+</head>
+<body>
+    <div id="main">
+        <header>
+            <div id="headContainer">
+                <div id="logo">
+                    <a asp-action="Index" asp-controller="Home">
+                        <img src="~/images/logo.png" />
+                    </a>
+                </div>
+                <div class="mainTitle">
+                    <h1 id="header">Faculty Management</h1>
+                </div>
+            </div>
+        </header>
+        <nav>
+            <ul class="navigation">
+                @Html.Partial("NavigationBar")
+            </ul>
+        </nav>
+        <div id="pageContainer">
+            @*@Html.Partial("IdentifierTag")*@
+            @RenderBody()
+        </div>
+        <div id="separator"></div>
+        <footer>
+            @*<p id="footer">&copy;Copyright Project - Group 1 - Paulo Chain, Andre Ribeiro, Eduardo Sanchez</p>*@
+        </footer>
+    </div>
+</body>
+</html>

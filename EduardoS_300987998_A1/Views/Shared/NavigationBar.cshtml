@@ -1,0 +1,53 @@
+﻿@if (ViewContext.HttpContext.User.IsInRole("Admin"))
+{
+    <li><a asp-action="Index" asp-controller="Home">Home</a></li>
+    <li><a asp-action="Faculty" asp-controller="Faculty">Faculty</a></li>
+    <li><a asp-action="AddFaculty" asp-controller="Faculty">Add Faculty</a></li>
+    <li><a asp-action="Courses" asp-controller="Course">Courses</a></li>
+    <li><a asp-action="AddCourses" asp-controller="Course">Add Courses</a></li>
+    <li><a asp-action="AssignFaculty" asp-controller="Faculty">Assign Faculty</a></li>
+    <li><a asp-action="Logout" asp-controller="Account">Log out</a></li>
+}
+else if (ViewContext.HttpContext.User.IsInRole("Manager"))
+{
+    <li><a asp-action="Index" asp-controller="Home">Home</a></li>
+    <li><a asp-action="Faculty" asp-controller="Faculty">Faculty</a></li>
+    <li><a asp-action="Courses" asp-controller="Course">Courses</a></li>
+    <li><a asp-action="AddCourses" asp-controller="Course">Add Courses</a></li>
+    <li><a asp-action="AssignFaculty" asp-controller="Faculty">Assign Faculty</a></li>
+    <li><a asp-action="Logout" asp-controller="Account">Log out</a></li>
+}
+else
+{
+    <li><a asp-action="Index" asp-controller="Home">Home</a></li>
+    <li><a asp-action="Faculty" asp-controller="Faculty">Faculty</a></li>
+    <li><a asp-action="Courses" asp-controller="Course">Courses</a></li>
+    <li><a asp-action="Login" asp-controller="Account" asp-route-returnUrl="@ViewContext.HttpContext.Request.Path.ToString()">Log in</a></li>
+}
+
+@*
+    <li><a asp-action="Index" asp-controller="Home">Home</a></li>
+                    <li><a asp-action="Faculty" asp-controller="Faculty">Faculty</a></li>
+                    @if (ViewContext.HttpContext.User.IsInRole("Admin"))
+                    {
+                        <li><a asp-action="AddFaculty" asp-controller="Faculty">Add Faculty</a></li>
+                    }
+                    <li><a asp-action="Courses" asp-controller="Course">Courses</a></li>
+                    @if (ViewContext.HttpContext.User.IsInRole("Admin") ||
+                       ViewContext.HttpContext.User.IsInRole("Manager"))
+                    {
+                        <li><a asp-action="AddCourses" asp-controller="Course">Add Courses</a></li>
+                        <li><a asp-action="AssignFaculty" asp-controller="Faculty">Assign Faculty</a></li>
+                    }
+                    <li>
+                        @if (ViewContext.HttpContext.User.IsInRole("Admin") ||
+                         ViewContext.HttpContext.User.IsInRole("Manager"))
+                        {
+                            <a asp-action="Logout" asp-controller="Account">Log out</a>
+                        }
+                        else
+                        {
+                            <a asp-action="Login" asp-controller="Account" asp-route-returnUrl="@ViewContext.HttpContext.Request.Path.ToString()">Log in</a>
+                        }
+                    </li>
+*@

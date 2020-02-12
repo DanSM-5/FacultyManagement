@@ -1,0 +1,21 @@
+﻿@model Course
+@{
+    ViewData["Title"] = "Add Courses";
+}
+
+<h2>Add Courses</h2>
+
+<div asp-validation-summary="All" class="text-danger text-center"></div>
+<form asp-action="AddToCourses" method="post" asp-controller="Course">
+    <label asp-for="Name"><span class="mandatory-field">*</span>Name: </label>
+    <input asp-for="Name" type="text" id="courseName" placeholder="Name" value="@Model.Name" /><br /><br />
+    <label asp-for="ShortName"><span class="mandatory-field">*</span>Short Name: </label>
+    <input asp-for="ShortName" type="text" id="shortName" placeholder="Comp-000" value="@Model.ShortName" /><br /><br />
+    <label asp-for="Description">Description: </label><br />
+<textarea asp-for="Description" placeholder="Type here" value="@Model.Description"></textarea>
+    <button class="btn-save btn-design" type="submit">Save</button>
+    <button class="btn-save btn-secondary" asp-action="Index" asp-controller="Home">Cancel</button>
+</form>
+@Html.Partial("MandatoryField")
+
+

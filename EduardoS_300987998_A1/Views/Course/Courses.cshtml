@@ -1,0 +1,97 @@
+﻿@model IEnumerable<Course>
+@{
+    ViewData["Title"] = "Courses";
+}
+
+<h2>Courses</h2>
+@if (TempData["message"] != null)
+{
+    <div class="alert-info text-lg-center p-2">
+        <p>@TempData["message"]</p>
+    </div>
+}
+<table class="table-blue">
+    <thead>
+        <tr>
+            <th>
+                Course ID
+            </th>
+            <th>
+                Course Title
+            </th>
+            <th>
+                Faculties
+            </th>
+            @if (ViewContext.HttpContext.User.IsInRole("Admin") ||
+                ViewContext.HttpContext.User.IsInRole("Manager"))
+            {
+                <th>Options</th>
+            }
+            </tr>
+    </thead>
+    <tbody>
+        @foreach (Course course in Model)
+        {
+        <tr>
+            <td>
+                @course.CourseID
+            </td>
+            <td>
+                @if (ViewContext.HttpContext.User.IsInRole("Admin") ||
+                 ViewContext.HttpContext.User.IsInRole("Manager"))
+                {
+                    <a asp-action="DataPage" asp-controller="Course" asp-route-id="@course.CourseID" class="data-page">
+                        <div>
+                            @course.Name
+                        </div>
+                    </a>
+                }
+                else
+                {
+                    <div>
+                        @course.Name
+                    </div>
+                }
+            </td>
+            <td>
+                <ol>
+                    @if (course.FacultyCourses.Count == 0)
+                    {
+                        @:N/A
+                    }
+                    else
+                    {
+                        @foreach (FacultyCourse fc in course.FacultyCourses)
+                        {
+                            <li>@fc.Faculty.Name</li>
+                        }
+                    }
+                </ol>
+            </td>
+            @if (ViewContext.HttpContext.User.IsInRole("Manager") ||
+                ViewContext.HttpContext.User.IsInRole("Admin"))
+            { 
+                <td>
+                    <form asp-action="Delete" asp-controller="CRUDCourse" method="post">
+                        <input type="hidden" name="id" value="@course.CourseID" />
+                        <a asp-action="Update" asp-controller="CRUDCourse" asp-route-id="@course.CourseID" class="btn btn-sm btn-warning">Edit</a>
+                @if (ViewContext.HttpContext.User.IsInRole("Admin"))
+                {
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                }
+                    </form>
+                </td>
+            }
+        </tr>
+        }
+    </tbody>
+</table>
+@if (ViewContext.HttpContext.User.IsInRole("Admin")
+    || ViewContext.HttpContext.User.IsInRole("Manager"))
+{
+    <div>
+        <a asp-action="AddCourses" asp-controller="Course" class="btn-save btn-design">
+            Add Course
+        </a>
+    </div>
+}
