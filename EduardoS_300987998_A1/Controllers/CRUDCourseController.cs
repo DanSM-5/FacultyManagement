@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using EduardoS_300987998_A3.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EduardoS_300987998_A3.Controllers
 {
@@ -14,9 +15,9 @@ namespace EduardoS_300987998_A3.Controllers
         public CRUDCourseController(ICourseRepository repo) => repository = repo;
 
         [Authorize]
-        public ViewResult Update(int id) => View(
-                                               repository.Courses
-                                               .FirstOrDefault(c => c.CourseID == id));
+        public async Task<ViewResult> Update(int id) => View(
+                                               await repository.Courses
+                                                    .FirstOrDefaultAsync(c => c.CourseID == id));
 
 
         [HttpPost]
@@ -37,9 +38,9 @@ namespace EduardoS_300987998_A3.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            Course course = repository.Delete(id);
+            Course course = await repository.Delete(id);
 
             if (course != null)
             {

@@ -57,15 +57,5 @@ namespace EduardoS_300987998_A3.Controllers
 
         [Authorize(Roles = "Manager")]
         public ViewResult AccessDenied(string returnUrl) => View(nameof(AccessDenied), returnUrl);
-
-
-        //public async Task<IdentityUser> GetCurrentUserAsync()
-        //{
-        //    var user = await userManager.GetUserAsync(HttpContext.User);
-
-
-
-        //    return user;
-        //}
     }
 }

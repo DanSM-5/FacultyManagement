@@ -22,6 +22,6 @@ namespace EduardoS_300987998_A3.Models
         public string Description { get; set; }
 
         [BindNever]
-        public ICollection<FacultyCourse> FacultyCourses { get; set; }
+        public List<FacultyCourse> FacultyCourses { get; set; }
     }
 }

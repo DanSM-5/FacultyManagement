@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using EduardoS_300987998_A3.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EduardoS_300987998_A3.Controllers
 {
@@ -21,9 +22,9 @@ namespace EduardoS_300987998_A3.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin, Manager")]
-        public IActionResult AddToCourses(Course course)
+        public async Task<IActionResult> AddToCourses(Course course)
         {
-            if (repository.Courses.Any(c => c.Name == course.Name))
+            if (await repository.Courses.AnyAsync(c => c.Name == course.Name))
             {
                 ModelState.AddModelError("", "Course name already exists");
             }
@@ -41,8 +42,8 @@ namespace EduardoS_300987998_A3.Controllers
         }
 
         [Authorize]
-        public ViewResult DataPage(int id) => 
-            View(repository.Courses
-                .FirstOrDefault(c => c.CourseID == id));
+        public async Task<ViewResult> DataPage(int id) => 
+            View( await repository.Courses
+                .FirstOrDefaultAsync(c => c.CourseID == id));
     }
 }

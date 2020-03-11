@@ -17,7 +17,7 @@ namespace EduardoS_300987998_A3.Models
         /// <param name="faculty">
         /// Faculty object that is going to be stored.
         /// </param>
-        void Save(Faculty faculty);
+        Task Save(Faculty faculty);
         /// <summary>
         /// Delete one faculty record from the database FacultyManagement. 
         /// Object is identify by its id.
@@ -28,7 +28,7 @@ namespace EduardoS_300987998_A3.Models
         /// <returns>
         /// Returns a reference to the object deleted from the database.
         /// </returns>
-        Faculty Delete(int id);
+        Task<Faculty> Delete(int id);
         /// <summary>
         /// Method accepts one faculty and one course and end their relationship. 
         /// The record in FacultyCourse table that joins both objects is deleted.
@@ -46,6 +46,6 @@ namespace EduardoS_300987998_A3.Models
         /// <returns>
         /// boolean confirmation if relationship between faculty and course were end successfully.
         /// </returns>
-        bool RemoveCourse(Faculty faculty, Course course, bool save = true);
+        Task RemoveCourse(int facultyId, int courseId);
     }
 }

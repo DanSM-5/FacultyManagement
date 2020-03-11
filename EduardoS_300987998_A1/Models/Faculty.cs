@@ -14,7 +14,7 @@ namespace EduardoS_300987998_A3.Models
         [Required(ErrorMessage = "Please enter a Name")]
         public string Name { get; set; }
         [BindNever]
-        public ICollection<FacultyCourse> FacultyCourses { get; set; } = new List<FacultyCourse>();
+        public List<FacultyCourse> FacultyCourses { get; set; } = new List<FacultyCourse>();
         [RegularExpression(@"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$", ErrorMessage = "Please enter an Email")]
         [Required]
         public string Email { get; set; }

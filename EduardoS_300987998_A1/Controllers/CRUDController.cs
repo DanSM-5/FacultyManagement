@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using EduardoS_300987998_A3.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EduardoS_300987998_A3.Controllers
 {
@@ -15,16 +16,16 @@ namespace EduardoS_300987998_A3.Controllers
 
         public CRUDController(IFacultyRepository repo) => repository = repo;
 
-        public ViewResult Update(int id) => View(
-                                               repository.Faculties
-                                               .FirstOrDefault(f => f.FacultyID == id)); 
+        public async Task<ViewResult> Update(int id) => View(
+                                               await repository.Faculties
+                                                    .FirstOrDefaultAsync(f => f.FacultyID == id)); 
 
         [HttpPost]
-        public IActionResult Update(Faculty faculty)
+        public async Task<IActionResult> Update(Faculty faculty)
         {
             if (ModelState.IsValid)
             {
-                repository.Save(faculty);
+                await repository.Save(faculty);
                 TempData["message"] = "Faculty edited successfully!!!";
                 return RedirectToAction("Faculty","Faculty");
             }
@@ -35,9 +36,9 @@ namespace EduardoS_300987998_A3.Controllers
         }
 
         [HttpPost]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            Faculty faculty = repository.Delete(id);
+            Faculty faculty = await repository.Delete(id);
 
             if (faculty != null)
             {

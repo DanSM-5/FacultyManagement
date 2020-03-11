@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,6 +11,5 @@ namespace EduardoS_300987998_A3.Models
         public int FacultyCourseID { get; set; }
         public Faculty Faculty { get; set; }
         public Course Course { get; set; }
-
     }
 }

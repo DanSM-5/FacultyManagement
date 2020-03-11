@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EduardoS_300987998_A3.Infraestructure;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,11 +21,11 @@ namespace EduardoS_300987998_A3.Models
             .Include(c => c.FacultyCourses)
                 .ThenInclude(fc => fc.Faculty);
 
-        public void Save(Faculty faculty)
+        public async Task Save(Faculty faculty)
         {
             context.AttachRange(faculty.FacultyCourses.Select(fc => fc.Course));
 
-            if(context.Faculties.Any(f => f.FacultyID == faculty.FacultyID))
+            if(faculty.FacultyID != 0)
             {
                 Faculty facultyEntry = context.Faculties.FirstOrDefault(f => f.FacultyID == faculty.FacultyID);
 
@@ -37,54 +38,46 @@ namespace EduardoS_300987998_A3.Models
                     facultyEntry.Phone = faculty.Phone;
                 }
             }
-
             else
             {
                 context.Faculties.Add(faculty);
             }
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
-        public Faculty Delete(int id)
+        public async Task<Faculty> Delete(int id)
         {
-            Faculty faculty = Faculties.FirstOrDefault(f => f.FacultyID == id);            
+            Faculty faculty = await Faculties.FirstOrDefaultAsync(f => f.FacultyID == id);            
 
             if (faculty != null)
             {
                 if (faculty.FacultyCourses.Count > 0)
                 {
-                    foreach (Course course in Courses.Where(c => c.FacultyCourses.Any(fc => fc.Faculty.FacultyID == faculty.FacultyID)))
+                    var removedFacultyCourses = new List<Task<FacultyCourse>>();
+                    foreach (Course course in Courses.Where(c => c.FacultyCourses.Any(fc => fc.Faculty.FacultyID == id)))
                     {
-                        RemoveCourse(faculty, course, saveChanges: false);
+                        removedFacultyCourses.Add(Task.Run(() => course.FacultyCourses
+                                                    .FirstOrDefault(fc => fc.Faculty.FacultyID == id)));
                     }
+                    var facultyCourses = await Task.WhenAll(removedFacultyCourses);
+                    context.FacultyCourses.RemoveRange(facultyCourses);
                 }
 
                 context.Faculties.Remove(faculty);
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
             return faculty;
         }
 
-        public bool RemoveCourse(Faculty faculty, Course course, bool saveChanges = true)
+        public async Task RemoveCourse(int facultyId, int courseId)
         {
-            FacultyCourse facultyCourse = course.FacultyCourses
-                            .FirstOrDefault(fc => fc.Faculty.FacultyID == faculty.FacultyID);
+            FacultyCourse facultyCourse = await context.FacultyCourses
+                .FirstOrDefaultAsync(fc => fc.Course.CourseID == courseId && fc.Faculty.FacultyID == facultyId);
+   
+            context.FacultyCourses.Remove(facultyCourse);
 
-            bool removedFaculty = faculty.FacultyCourses.Remove(facultyCourse);
-            bool removedCourse = course.FacultyCourses.Remove(facultyCourse);
-
-            if (removedCourse && removedFaculty)
-            {           
-                context.FacultyCourses.Remove(facultyCourse);
-
-                if (saveChanges)
-                {
-                    context.SaveChanges(); 
-                }
-            }
-
-            return removedCourse && removedFaculty;
+            await context.SaveChangesAsync(); 
         }
     }
 }

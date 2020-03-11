@@ -8,7 +8,7 @@ namespace EduardoS_300987998_A3.Models
     public interface ICourseRepository
     {
         IQueryable<Course> Courses{ get; }
-        void Save(Course course);
-        Course Delete(int id);
+        Task Save(Course course);
+        Task<Course> Delete(int id);
     }
 }
